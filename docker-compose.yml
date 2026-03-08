@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  semantic-search:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - CACHE_THRESHOLD=0.85
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+    volumes:
+      # Persist ChromaDB and cache across container restarts
+      - chroma_data:/app/chroma_db
+      - cache_data:/app/cache
+      - model_data:/app/models
+      - pipeline_data:/app/data
+    restart: unless-stopped
+
+volumes:
+  chroma_data:
+  cache_data:
+  model_data:
+  pipeline_data:
